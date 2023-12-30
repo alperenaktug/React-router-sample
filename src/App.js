@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+// import AboutUs from "./components/AboutUs";
+import Navbar from "./components/Navbar";
+import Misssion from "./components/Misssion";
+import WrongPath from "./components/WrongPath";
+import History from "./components/History";
+import Company from "./components/Company";
+import Team from "./components/Team";
+import Members from "./components/Members";
+import MemberDetail from "./components/MemberDetail";
+import React from "react";
+const LazyAboutUs = React.lazy(() => import("./components/AboutUs"));
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/aboutUs"
+          element={
+            <React.Suspense>
+              <LazyAboutUs />
+            </React.Suspense>
+          }
+        />
+
+        <Route path="/mission" element={<Misssion />} />
+        <Route path="/history" element={<History />}>
+          <Route path="company" element={<Company />} />
+          <Route path="team" element={<Team />} />
+        </Route>
+        <Route path="/members" element={<Members />} />
+        <Route path="/members/:memberId" element={<MemberDetail />} />
+        <Route path="*" element={<WrongPath />} />
+      </Routes>
     </div>
   );
 }
